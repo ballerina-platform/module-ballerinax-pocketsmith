@@ -1,0 +1,4455 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "PocketSmith",
+    "description" : "The PocketSmith API",
+    "contact" : {
+      "name" : "API Support",
+      "email" : "api@pocketsmith.com"
+    },
+    "version" : "2.0"
+  },
+  "servers" : [ {
+    "url" : "https://api.pocketsmith.com/v2",
+    "description" : "Production"
+  } ],
+  "security" : [ {
+    "developerKey" : [ ]
+  } ],
+  "paths" : {
+    "/me" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Get the authorised user",
+        "description" : "Gets the user that corresponds to the access token used in the request.",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          }
+        }
+      }
+    },
+    "/users/{id}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Get user",
+        "description" : "Gets a user by ID. You must be authorised as the target user in order to make this request.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Users" ],
+        "summary" : "Update user",
+        "description" : "Updates the user by their ID. You must be authorised as the target user in order to make this request.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UsersidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/institutions/{id}" : {
+      "get" : {
+        "tags" : [ "Institutions" ],
+        "summary" : "Get institution",
+        "description" : "Gets an institution by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the institution.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Institution"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Institutions" ],
+        "summary" : "Update institution",
+        "description" : "Updates the title and currency code for an institution.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the institution.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/InstitutionsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Institution"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Institutions" ],
+        "summary" : "Delete institution",
+        "description" : "Deletes an institution and all data within. Alternatively, another institution can be provided to merge the data into to avoid losing it.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the institution.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "merge_into_institution_id",
+          "in" : "query",
+          "description" : "The unique identifier of the institution to merge into.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 44
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/institutions" : {
+      "get" : {
+        "tags" : [ "Institutions" ],
+        "summary" : "List institutions in user",
+        "description" : "Lists all the institutions belonging to the user.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Institution"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Institutions" ],
+        "summary" : "Create institution in user",
+        "description" : "Creates an institution belonging to a user.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdInstitutionsBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Institution"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/accounts/{id}" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Get account",
+        "description" : "Gets an account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Update account",
+        "description" : "Updates and returns an account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccountsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Delete account",
+        "description" : "Deletes an account and all its data by ID, optionally merge scenarios into another account.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/accounts" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "List accounts in user",
+        "description" : "Lists all accounts belonging to the user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Account"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Update the display order of accounts in user",
+        "description" : "Updates the display order of accounts belonging to the user, by accepting an array of accounts in their new display order.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdAccountsBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Account"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "Create an account in user",
+        "description" : "Creates and returns an account belonging to the user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdAccountsBody1"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/institutions/{id}/accounts" : {
+      "get" : {
+        "tags" : [ "Accounts" ],
+        "summary" : "List accounts in institution",
+        "description" : "Lists accounts belonging to an institution by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the institution.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Account"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/transaction_accounts/{id}" : {
+      "get" : {
+        "tags" : [ "Transaction Accounts" ],
+        "summary" : "Get transaction account",
+        "description" : "Gets a transaction account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TransactionAccount"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Transaction Accounts" ],
+        "summary" : "Update transaction account",
+        "description" : "Updates the transaction account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TransactionAccountsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/TransactionAccount"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/transaction_accounts" : {
+      "get" : {
+        "tags" : [ "Transaction Accounts" ],
+        "summary" : "List transaction accounts in user",
+        "description" : "List all transaction accounts belonging to a user.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TransactionAccount"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/transactions/{id}" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Get a transaction",
+        "description" : "Gets a transaction by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Update a transaction",
+        "description" : "Updates a transaction by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TransactionsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success. When splits are provided, the response includes both the updated transaction and the newly created split transactions.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InlineResponse200"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Delete transaction",
+        "description" : "Deletes a transaction and all its data by ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/transactions" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "List transactions in user",
+        "description" : "Lists transactions belonging to a user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or after this date. Required if end_date is provided. If not provided, defaults to the furtherest date allowed by the user's subscription.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or before this date. Required if start_date is provided. If not provided, defaults to today's date.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        }, {
+          "name" : "updated_since",
+          "in" : "query",
+          "description" : "Limit to transactions updated since an ISO 8601 timestamp.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-14T09:20:33+13:00"
+        }, {
+          "name" : "uncategorised",
+          "in" : "query",
+          "description" : "Limit to uncategorised transactions.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Limit to transactions of this type.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "debit", "credit" ]
+          },
+          "example" : "debit"
+        }, {
+          "name" : "needs_review",
+          "in" : "query",
+          "description" : "Limit to transactions that need to be reviewed.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "Limit to transactions matching a keyword search string. The provided string is matched against the transaction amount, account name, payee, category title, note, labels, and the date in ISO 8601 format.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Paypal"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Choose a particular page of the results.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 3
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/accounts/{id}/transactions" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "List transactions in account",
+        "description" : "Lists transactions belonging to an account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or after this date. Required if end_date is provided. If not provided, defaults to the furtherest date allowed by the user's subscription.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or before this date. Required if start_date is provided. If not provided, defaults to today's date.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        }, {
+          "name" : "updated_since",
+          "in" : "query",
+          "description" : "Limit to transactions updated since an ISO 8601 timestamp.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-14T09:20:33+13:00"
+        }, {
+          "name" : "uncategorised",
+          "in" : "query",
+          "description" : "Limit to uncategorised transactions.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Limit to transactions of this type.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "debit", "credit" ]
+          },
+          "example" : "debit"
+        }, {
+          "name" : "needs_review",
+          "in" : "query",
+          "description" : "Limit to transactions that need to be reviewed.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "Limit to transactions matching a keyword search string. The provided string is matched against the transaction amount, account name, payee, category title, note, labels, and the date in ISO 8601 format.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Paypal"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Choose a particular page of the results.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 3
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/categories/{id}/transactions" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "List transactions in categories",
+        "description" : "Lists transactions belonging to one or more categories by their IDs.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "A comma-separated list of category IDs.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "42,43"
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or after this date. Required if end_date is provided. If not provided, defaults to the furtherest date allowed by the user's subscription.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or before this date. Required if start_date is provided. If not provided, defaults to today's date.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        }, {
+          "name" : "updated_since",
+          "in" : "query",
+          "description" : "Limit to transactions updated since an ISO 8601 timestamp.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-14T09:20:33+13:00"
+        }, {
+          "name" : "uncategorised",
+          "in" : "query",
+          "description" : "Limit to uncategorised transactions.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Limit to transactions of this type.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "debit", "credit" ]
+          },
+          "example" : "debit"
+        }, {
+          "name" : "needs_review",
+          "in" : "query",
+          "description" : "Limit to transactions that need to be reviewed.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "Limit to transactions matching a keyword search string. The provided string is matched against the transaction amount, account name, payee, category title, note, labels, and the date in ISO 8601 format.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Paypal"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Choose a particular page of the results.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 3
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/transaction_accounts/{id}/transactions" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "List transactions in transaction account",
+        "description" : "Lists transactions belonging to a transaction account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or after this date. Required if end_date is provided. If not provided, defaults to the furtherest date allowed by the user's subscription.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Limit to transactions on or before this date. Required if start_date is provided. If not provided, defaults to today's date.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        }, {
+          "name" : "updated_since",
+          "in" : "query",
+          "description" : "Limit to transactions updated since an ISO 8601 timestamp.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-14T09:20:33+13:00"
+        }, {
+          "name" : "uncategorised",
+          "in" : "query",
+          "description" : "Limit to uncategorised transactions.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Limit to transactions of this type.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "debit", "credit" ]
+          },
+          "example" : "debit"
+        }, {
+          "name" : "needs_review",
+          "in" : "query",
+          "description" : "Limit to transactions that need to be reviewed.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "Limit to transactions matching a keyword search string. The provided string is matched against the transaction amount, account name, payee, category title, note, labels, and the date in ISO 8601 format.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "Paypal"
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Choose a particular page of the results.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 3
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Create a transaction in transaction account",
+        "description" : "Creates a transaction in a transaction account by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdTransactionsBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/categories/{id}" : {
+      "get" : {
+        "tags" : [ "Categories" ],
+        "summary" : "Get category",
+        "description" : "Gets a particular category by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the category.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Categories" ],
+        "summary" : "Update category",
+        "description" : "Updates a category by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the category.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CategoriesidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Categories" ],
+        "summary" : "Delete category",
+        "description" : "Deletes a particular category by its ID. This will delete all budgets within the category, and uncategorize all transactions assigned to the category.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the category.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/categories" : {
+      "get" : {
+        "tags" : [ "Categories" ],
+        "summary" : "List categories in user",
+        "description" : "Lists all categories belonging to a user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Categories" ],
+        "summary" : "Create category in user",
+        "description" : "Creates a category belonging to the user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdCategoriesBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/category_rules" : {
+      "get" : {
+        "tags" : [ "Category Rules" ],
+        "summary" : "List category rules in user",
+        "description" : "Lists all category rules belonging to a user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/CategoryRule"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/categories/{id}/category_rules" : {
+      "post" : {
+        "tags" : [ "Category Rules" ],
+        "summary" : "Create category rule in category",
+        "description" : "Creates a rule to allocate a category to transactions.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the category.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdCategoryRulesBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CategoryRule"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/budget" : {
+      "get" : {
+        "tags" : [ "Budgeting" ],
+        "summary" : "List budget for user",
+        "description" : "Lists the user's budget, consisting of one or more budget analysis packages, one per category. Akin to the list on the Budget page in PocketSmith.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the account.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "roll_up",
+          "in" : "query",
+          "description" : "Whether parent categories should have their children rolled up into them. When used, the children will still appear in the collection on their own, but their actual and forecast figures will be rolled up to the root parent.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean"
+          },
+          "example" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BudgetAnalysisPackage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}/budget_summary" : {
+      "get" : {
+        "tags" : [ "Budgeting" ],
+        "summary" : "Get budget summary for user",
+        "description" : "Get the user's budget summary, containing an expense and income analysis for all categories (excluding transfer categories) for the given period and date range. Akin to the overall budget shown on the Budget page in PocketSmith.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "The period to analyse in, one of `weeks`, `months` or `years`. Also supported is `event`, although event period analysis is only possible when the budget events gathered align, so in this case where all categories are analysed together, it's highly unlikely that event period analysis will be possible.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "weeks", "months", "years", "event" ]
+          },
+          "example" : "weeks"
+        }, {
+          "name" : "interval",
+          "in" : "query",
+          "description" : "The period interval, e.g. if the interval is 2 and the period is weeks, the budget will be analysed fortnightly.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 2
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "The date to start analysing the budget from. This will be bumped out to make full periods as necessary.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "The date to stop analysing the budget from. This will be bumped out to make full periods as necessary.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BudgetAnalysisPackage"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/trend_analysis" : {
+      "get" : {
+        "tags" : [ "Budgeting" ],
+        "summary" : "Get trend analysis for user",
+        "description" : "Get an income and/or expense budget analysis for the given date range and period across any number of categories and scenarios. Akin to the Trends page in PocketSmith.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "period",
+          "in" : "query",
+          "description" : "The period to analyse in, one of `weeks`, `months` or `years`. Also supported is `event`, although event period analysis is only possible when the budget events gathered align, so in this case where all categories are analysed together, it's highly unlikely that event period analysis will be possible.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "weeks", "months", "years", "event" ]
+          },
+          "example" : "weeks"
+        }, {
+          "name" : "interval",
+          "in" : "query",
+          "description" : "The period interval, e.g. if the interval is 2 and the period is weeks, the budget will be analysed fortnightly.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : true
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "The date to start analysing the budget from. This will be bumped out to make full periods as necessary.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "The date to stop analysing the budget from. This will be bumped out to make full periods as necessary.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2016-11-30"
+        }, {
+          "name" : "categories",
+          "in" : "query",
+          "description" : "A comma-separated list of category IDs to analyse.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "42,49"
+        }, {
+          "name" : "scenarios",
+          "in" : "query",
+          "description" : "A comma-separated list of scenario IDs to analyse. You're likely going to want to include all a user's scenarios here, unless you have reason to only analyse for a subset of scenarios. Regardless of what scenarios are analysed, all actuals (transactions) across all accounts will be included.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "11,29"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/BudgetAnalysisPackage"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/users/{id}/forecast_cache" : {
+      "delete" : {
+        "tags" : [ "Budgeting" ],
+        "summary" : "Delete forecast cache for user",
+        "description" : "Delete the user's cached forecast by recalculating the forecast.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/events/{id}" : {
+      "get" : {
+        "tags" : [ "Events" ],
+        "summary" : "Get event",
+        "description" : "Gets a particular event by its ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/eventId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Events" ],
+        "summary" : "Update event",
+        "description" : "Updates an event by its ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/eventId"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/EventsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "409" : {
+            "$ref" : "#/components/responses/409"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Events" ],
+        "summary" : "Delete event",
+        "description" : "Deletes an event by its ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/eventId"
+        }, {
+          "name" : "behaviour",
+          "in" : "query",
+          "description" : "Whether the delete applies only to this event, to all events within the series from this event or to all events within the series.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "one", "forward", "all" ]
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "409" : {
+            "$ref" : "#/components/responses/409"
+          }
+        }
+      }
+    },
+    "/users/{id}/events" : {
+      "get" : {
+        "tags" : [ "Events" ],
+        "summary" : "List events in user.",
+        "description" : "Lists events belonging to a user by their ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/userId"
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Return the events from and including this date.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Return the events until and including this date.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-30"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/scenarios/{id}/events" : {
+      "get" : {
+        "tags" : [ "Events" ],
+        "summary" : "List events in scenario.",
+        "description" : "Lists events belonging to a scenario by their ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/scenarioId"
+        }, {
+          "name" : "start_date",
+          "in" : "query",
+          "description" : "Return the events from and including this date.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-01"
+        }, {
+          "name" : "end_date",
+          "in" : "query",
+          "description" : "Return the events until and including this date.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "2020-10-30"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Event"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Events" ],
+        "summary" : "Create event in scenario",
+        "description" : "Creates an event in a scenario by its ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/scenarioId"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdEventsBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "409" : {
+            "$ref" : "#/components/responses/409"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/attachments/{id}" : {
+      "get" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Get attachment",
+        "description" : "Gets a particular attachment by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the attachment.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachment"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Update attachment",
+        "description" : "Updates the title of the attachment.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the attachment.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AttachmentsidBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachment"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Delete attachment",
+        "description" : "Deletes a particular attachment by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the attachment.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/attachments" : {
+      "get" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Lists attachments in user",
+        "description" : "Lists attachments belonging to a user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "unassigned",
+          "in" : "query",
+          "description" : "If set, returns unassigned attachments, that are available for assigning to a transaction.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Attachment"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Create attachment in user",
+        "description" : "Creates an attachment belonging to the user by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the user.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdAttachmentsBody"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachment"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/422"
+          }
+        }
+      }
+    },
+    "/transactions/{id}/attachments" : {
+      "get" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "List attachments in transaction",
+        "description" : "Lists attachments belonging to a transaction by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Attachment"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Assigns attachment to transaction",
+        "description" : "Assigns an attachment to the transaction by their ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/IdAttachmentsBody1"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachment"
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/transactions/{transaction_id}/attachments/{attachment_id}" : {
+      "delete" : {
+        "tags" : [ "Attachments" ],
+        "summary" : "Unassigns attachment in transaction",
+        "description" : "Unassigns a particular attachment by its ID from the transaction ID. This does not delete the attachment, it only removes its association from the transaction.",
+        "parameters" : [ {
+          "name" : "transaction_id",
+          "in" : "path",
+          "description" : "The unique identifier of the transaction.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 42
+        }, {
+          "name" : "attachment_id",
+          "in" : "path",
+          "description" : "The unique identifier of the attachment.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1438154
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Success"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/labels" : {
+      "get" : {
+        "tags" : [ "Labels" ],
+        "summary" : "List labels in user",
+        "description" : "Lists labels belonging to a user by their ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/userId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "example" : [ "craftbeer", "bargains", "gaming", "Trip to Auckland" ]
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/users/{id}/saved_searches" : {
+      "get" : {
+        "tags" : [ "Saved Searches" ],
+        "summary" : "List saved searches in user",
+        "description" : "Lists saved searches belonging to a user by their ID.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/userId"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/SavedSearch"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "$ref" : "#/components/responses/403"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/currencies" : {
+      "get" : {
+        "tags" : [ "Currencies" ],
+        "summary" : "List currencies",
+        "description" : "Lists currencies supported by PocketSmith.",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Currency"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencies/{id}" : {
+      "get" : {
+        "tags" : [ "Currencies" ],
+        "summary" : "Get currency",
+        "description" : "Gets a particular currency by its ID.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The unique identifier of the currency.",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "nzd"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Currency"
+                }
+              }
+            }
+          },
+          "404" : {
+            "$ref" : "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/time_zones" : {
+      "get" : {
+        "tags" : [ "Time Zones" ],
+        "summary" : "List time zones",
+        "description" : "Lists time zones.",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/TimeZone"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Account" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the account.",
+            "example" : 42
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the account.",
+            "example" : "Bank of Foo"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency code for the account.",
+            "example" : "NZD"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of the account.",
+            "example" : "bank",
+            "enum" : [ "bank", "credits", "cash", "stocks", "mortgage", "loans", "vehicle", "property", "insurance", "other_asset", "other_liability" ]
+          },
+          "is_net_worth" : {
+            "type" : "boolean",
+            "description" : "Whether the account is a net worth asset.",
+            "example" : false
+          },
+          "primary_transaction_account" : {
+            "$ref" : "#/components/schemas/TransactionAccount"
+          },
+          "primary_scenario" : {
+            "$ref" : "#/components/schemas/Scenario"
+          },
+          "transaction_accounts" : {
+            "type" : "array",
+            "description" : "All transaction accounts that compose the account, including the primary.",
+            "items" : {
+              "$ref" : "#/components/schemas/TransactionAccount"
+            }
+          },
+          "scenarios" : {
+            "type" : "array",
+            "description" : "All scenarios that compose the account, including the primary.",
+            "items" : {
+              "$ref" : "#/components/schemas/Scenario"
+            }
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the account was created.",
+            "example" : "2018-02-27"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the account was last updated.",
+            "example" : "2018-02-27"
+          },
+          "current_balance" : {
+            "type" : "number",
+            "description" : "The current balance of the account.",
+            "example" : 2694.39
+          },
+          "current_balance_date" : {
+            "type" : "string",
+            "description" : "The date of the current balance.",
+            "example" : "2018-02-27"
+          },
+          "current_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current balance of the account in the user's base currency.",
+            "example" : 4041.59
+          },
+          "current_balance_exchange_rate" : {
+            "type" : "number",
+            "description" : "The exchange rate between the account's currency and the user's base currency, when different. If the currencies are the same, null is returned.",
+            "example" : 1.5
+          },
+          "safe_balance" : {
+            "type" : "number",
+            "description" : "The current safe balance, if safe balance is activated on the account. If safe balance is not activated, then null is returned.",
+            "example" : 2694.39
+          },
+          "safe_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current safe balance in the user's base currency, if safe balance is activated on the account. If safe balance is not activated, then null is returned.",
+            "example" : 4041.59
+          }
+        }
+      },
+      "InstitutionsidBody" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "A new title for the institution.",
+            "example" : "Bank of Foo"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "A new currency code for the institution.",
+            "example" : "NZD"
+          }
+        }
+      },
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the user.",
+            "example" : 42
+          },
+          "login" : {
+            "type" : "string",
+            "description" : "The user's username.",
+            "example" : "sampleuser69"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The full name of the user, although not all users will have a name set.",
+            "example" : "Foo Barrington"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "The user's email address.",
+            "example" : "user69@sample.com"
+          },
+          "avatar_url" : {
+            "type" : "string",
+            "description" : "The URL to the user's avatar.",
+            "example" : "https://image.com/image.png"
+          },
+          "beta_user" : {
+            "type" : "boolean",
+            "description" : "Whether the user has opted in to beta features.",
+            "example" : true
+          },
+          "time_zone" : {
+            "type" : "string",
+            "description" : "The user's time zone.",
+            "example" : "Auckland"
+          },
+          "week_start_day" : {
+            "type" : "integer",
+            "description" : "The day of the week the user wishes their calendars to start on. A number between 0 and 6, where 0 is Sunday and 6 is Saturday.",
+            "example" : 1
+          },
+          "is_reviewing_transactions" : {
+            "type" : "boolean",
+            "description" : "Whether the user wants to review new transactions, transfer transactions or categorisation.",
+            "example" : true
+          },
+          "base_currency_code" : {
+            "type" : "string",
+            "description" : "The user's base currency.",
+            "example" : "NZD"
+          },
+          "always_show_base_currency" : {
+            "type" : "boolean",
+            "description" : "Whether the user wants to see all accounts in their base currency instead of the native account currency.",
+            "example" : false
+          },
+          "using_multiple_currencies" : {
+            "type" : "boolean",
+            "description" : "Whether the user has multiple currencies in use across their account.",
+            "example" : true
+          },
+          "available_accounts" : {
+            "type" : "integer",
+            "description" : "The user's total number of available accounts.",
+            "example" : 3
+          },
+          "available_budgets" : {
+            "type" : "integer",
+            "description" : "The user's total number of available budgets.",
+            "example" : 3
+          },
+          "forecast_last_updated_at" : {
+            "type" : "string",
+            "description" : "When the user's forecast was last updated.",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "forecast_last_accessed_at" : {
+            "type" : "string",
+            "description" : "When the user's forecast was last accessed.",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "forecast_start_date" : {
+            "type" : "string",
+            "description" : "The date that the user's forecast starts.",
+            "example" : "2015-07-01"
+          },
+          "forecast_end_date" : {
+            "type" : "string",
+            "description" : "The date that the user's forecast ends.",
+            "example" : "2015-07-15"
+          },
+          "forecast_defer_recalculate" : {
+            "type" : "boolean",
+            "description" : "Whether the user's forecast recalculation should be deferred.",
+            "example" : false
+          },
+          "forecast_needs_recalculate" : {
+            "type" : "boolean",
+            "description" : "Whether the user's forecast needs to be recalculated.",
+            "example" : true
+          },
+          "last_logged_in_at" : {
+            "type" : "string",
+            "description" : "When the user last logged into PocketSmith.",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "last_activity_at" : {
+            "type" : "string",
+            "description" : "When the user last interacted with PocketSmith, via any application or the API.",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the user signed up.",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the user was last updated.",
+            "example" : "2015-07-02T22:14:49Z"
+          }
+        }
+      },
+      "Category" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the category.",
+            "example" : 1438154
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the category.",
+            "example" : "Beer"
+          },
+          "colour" : {
+            "type" : "string",
+            "description" : "The colour for the category.",
+            "format" : "CSS-style hex triplet",
+            "example" : "#00ff00"
+          },
+          "children" : {
+            "type" : "array",
+            "description" : "The category's child categories.",
+            "items" : {
+              "$ref" : "#/components/schemas/Category"
+            }
+          },
+          "parent_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the parent category of this category, or null if this category has no parent (i.e. is a top-level category)",
+            "example" : 42
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether this category has been marked as a transfer category.",
+            "example" : false
+          },
+          "is_bill" : {
+            "type" : "boolean",
+            "description" : "Whether the category is a bill category. A bill category is when budgeted amounts are normally spent at once, instead of spread across a budgeting period. This category will be included in the bill reminder email when set to true.",
+            "example" : true
+          },
+          "roll_up" : {
+            "type" : "boolean",
+            "description" : "Whether the category's budget is rolled up into its parent category, if a parent category is present.",
+            "example" : false
+          },
+          "refund_behaviour" : {
+            "type" : "string",
+            "description" : "How the category's refunds or deductions should be reported on.",
+            "nullable" : true,
+            "example" : "credits_are_refunds",
+            "enum" : [ "debits_are_deductions", "credits_are_refunds", null ]
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the category was created.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the category was last updated.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          }
+        }
+      },
+      "SavedSearch" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the saved search.",
+            "example" : 42
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the saved search.",
+            "example" : "Craft beer"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the saved search was created.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the saved search was last updated.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          }
+        }
+      },
+      "CurrencySeparators" : {
+        "type" : "object",
+        "properties" : {
+          "major" : {
+            "type" : "string",
+            "description" : "The separator used in the major unit.",
+            "example" : ","
+          },
+          "minor" : {
+            "type" : "string",
+            "description" : "The seperator used for the minor unit.",
+            "example" : "."
+          }
+        }
+      },
+      "CategoryRule" : {
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the category rule.",
+            "example" : 1438154
+          },
+          "payee_matches" : {
+            "type" : "string",
+            "description" : "The keyword/s to match the transactions payees.",
+            "example" : "Countdown"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the category rule was created.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2019-07-09T10:06:02Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the category rule was last updated.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2019-07-09T10:06:02Z"
+          }
+        }
+      },
+      "InlineResponse200" : {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/Transaction"
+        }, {
+          "$ref" : "#/components/schemas/InlineResponse200OneOf2"
+        } ]
+      },
+      "IdEventsBody" : {
+        "required" : [ "amount", "category_id", "date", "repeat_type" ],
+        "type" : "object",
+        "properties" : {
+          "category_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the category for the event.",
+            "example" : 42
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "The starting date of the event.",
+            "example" : "2020-10-27"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount of the event. A positive amount is a credit, and a negative amount is a debit.",
+            "example" : 11.5
+          },
+          "repeat_type" : {
+            "type" : "string",
+            "description" : "The repeat type of the event.",
+            "example" : "weekly",
+            "enum" : [ "once", "daily", "weekly", "fortnightly", "monthly", "yearly", "each weekday" ]
+          },
+          "repeat_interval" : {
+            "type" : "integer",
+            "description" : "The repeat interval of the event.",
+            "example" : 1,
+            "default" : 1
+          },
+          "note" : {
+            "type" : "string",
+            "description" : "A note for the event.",
+            "example" : "New beers for sampling over the weekends."
+          }
+        }
+      },
+      "Attachment" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the attachment",
+            "example" : 42
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the attachment. If blank or not provided, the title will be derived from the file name.",
+            "example" : "Invoice for taxi"
+          },
+          "file_name" : {
+            "type" : "string",
+            "description" : "The file name of the attachment.",
+            "example" : "taxi.png"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of attachment.",
+            "example" : "image"
+          },
+          "content_type" : {
+            "type" : "string",
+            "description" : "The content type of the attachment.",
+            "example" : "image/png"
+          },
+          "content_type_meta" : {
+            "$ref" : "#/components/schemas/AttachmentContentTypeMeta"
+          },
+          "original_url" : {
+            "type" : "string",
+            "description" : "The url of the attachment.",
+            "example" : "https://image.com/image.png"
+          },
+          "variants" : {
+            "$ref" : "#/components/schemas/AttachmentVariants"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the attachment was created.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the attachment was last updated.",
+            "format" : "ISO 8601 timestamp",
+            "example" : "2015-08-16T02:17:02Z"
+          }
+        }
+      },
+      "IdAccountsBody" : {
+        "required" : [ "accounts" ],
+        "type" : "object",
+        "properties" : {
+          "accounts" : {
+            "type" : "array",
+            "description" : "List the account objects in their new display order.",
+            "items" : {
+              "$ref" : "#/components/schemas/Account"
+            }
+          }
+        }
+      },
+      "IdCategoriesBody" : {
+        "required" : [ "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "A title for the category.",
+            "example" : "Food"
+          },
+          "colour" : {
+            "type" : "string",
+            "description" : "A CSS-style hex colour for the category.",
+            "example" : "#e0e7ff"
+          },
+          "parent_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of a category to be the parent of this category.",
+            "example" : 42
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Set the category as a transfer category.",
+            "example" : false
+          },
+          "is_bill" : {
+            "type" : "boolean",
+            "description" : "Set the category as a bill category.",
+            "example" : true
+          },
+          "roll_up" : {
+            "type" : "boolean",
+            "description" : "Set the category to be rolled up into its parent category.",
+            "example" : false
+          },
+          "refund_behaviour" : {
+            "type" : "string",
+            "description" : "Set the refund behaviour of the category.",
+            "nullable" : true,
+            "example" : "credits_are_refunds",
+            "enum" : [ "debits_are_deductions", "credits_are_refunds", null ]
+          }
+        }
+      },
+      "Institution" : {
+        "type" : "object",
+        "properties" : {
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency code of the institution.",
+            "example" : "NZD"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the institution.",
+            "example" : "Bank of Foo"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the institution was last updated.",
+            "example" : "2015-04-21T22:42:22Z"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the institution was created.",
+            "example" : "2015-04-21T22:42:22Z"
+          },
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the institution.",
+            "example" : 57
+          }
+        }
+      },
+      "TransactionAccount" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "example" : 96027
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Sample Credit"
+          },
+          "number" : {
+            "type" : "string",
+            "example" : "ASBCRD44554"
+          },
+          "current_balance" : {
+            "type" : "number",
+            "example" : 2694.39
+          },
+          "current_balance_date" : {
+            "type" : "string",
+            "example" : "2015-07-03"
+          },
+          "current_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current balance of the transaction account in the user's base currency.",
+            "example" : 4041.59
+          },
+          "current_balance_exchange_rate" : {
+            "type" : "number",
+            "description" : "The exchange rate between the transaction account's currency and the user's base currency, when different. If the currencies are the same, null is returned.",
+            "example" : 1.5
+          },
+          "safe_balance" : {
+            "type" : "number",
+            "description" : "The current safe balance, if safe balance is activated and available for the transaction account. If safe balance is not available, then null is returned.",
+            "example" : 2694.39
+          },
+          "safe_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current safe balance in the user's base currency, if safe balance is activated and available for the transaction account. If safe balance is not available, then null is returned.",
+            "example" : 4041.59
+          },
+          "starting_balance" : {
+            "type" : "number",
+            "example" : 3547.45
+          },
+          "starting_balance_date" : {
+            "type" : "string",
+            "example" : "2015-03-15"
+          },
+          "created_at" : {
+            "type" : "string",
+            "example" : "2015-03-17T02:42:10Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "example" : "2015-07-02T22:14:49Z"
+          },
+          "institution" : {
+            "$ref" : "#/components/schemas/Institution"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency that the account is in. This is determined by the account that the transaction account belongs to.",
+            "example" : "NZD"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of the transaction account.",
+            "example" : "bank",
+            "enum" : [ "bank", "credits", "cash", "stocks", "mortgage", "loans", "vehicle", "property", "insurance", "other_asset", "other_liability" ]
+          }
+        }
+      },
+      "IdAttachmentsBody1" : {
+        "type" : "object",
+        "properties" : {
+          "attachment_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the attachment.",
+            "example" : 1438154
+          }
+        }
+      },
+      "InlineResponse200OneOf2" : {
+        "type" : "object",
+        "properties" : {
+          "transaction" : {
+            "$ref" : "#/components/schemas/Transaction"
+          },
+          "split_transactions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Transaction"
+            }
+          }
+        },
+        "description" : "Response when splits are provided"
+      },
+      "IdAttachmentsBody" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the attachment. If the title is blank or not provided, the title will derived from the file name.",
+            "example" : "Invoice for taxi"
+          },
+          "file_name" : {
+            "type" : "string",
+            "description" : "The file name of the attachment.",
+            "example" : "taxi.png"
+          },
+          "file_data" : {
+            "type" : "string",
+            "description" : "The base64-encoded contents of the source file. The supported file types are png, jpg, pdf, xls, xlsx, doc, docx.",
+            "format" : "base64"
+          }
+        }
+      },
+      "Currency" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The ISO 4217 or unofficial currency code.",
+            "example" : "nzd"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the currency.",
+            "example" : "New Zealand Dollar"
+          },
+          "minor_unit" : {
+            "type" : "integer",
+            "description" : "The number of digits after the minor unit separator.",
+            "example" : 2
+          },
+          "separators" : {
+            "$ref" : "#/components/schemas/CurrencySeparators"
+          },
+          "symbol" : {
+            "type" : "string",
+            "description" : "The symbol of the currency.",
+            "example" : "$"
+          }
+        }
+      },
+      "AttachmentContentTypeMeta" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "The content type title of the attachment.",
+            "example" : "PNG"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "The content type description of the attachment.",
+            "example" : "PNG image"
+          },
+          "extension" : {
+            "type" : "string",
+            "description" : "The extension type of the attachment.",
+            "example" : "png"
+          }
+        }
+      },
+      "BudgetAnalysis" : {
+        "type" : "object",
+        "properties" : {
+          "start_date" : {
+            "type" : "string",
+            "description" : "The start date of the budget analysis.",
+            "example" : "2016-11-01"
+          },
+          "end_date" : {
+            "type" : "string",
+            "description" : "The end date of the budget analysis.",
+            "example" : "2016-11-30"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency of the budget analysis.",
+            "example" : "nzd"
+          },
+          "total_actual_amount" : {
+            "type" : "number",
+            "description" : "The total actual (transactions) amount across all periods.",
+            "example" : -42.3
+          },
+          "average_actual_amount" : {
+            "type" : "number",
+            "description" : "The average actual (transactions) amount across all periods.",
+            "example" : -42.3
+          },
+          "total_forecast_amount" : {
+            "type" : "number",
+            "description" : "The total budgeted amount across all periods.",
+            "example" : -60
+          },
+          "average_forecast_amount" : {
+            "type" : "number",
+            "description" : "The average budgeted amount across all periods.",
+            "example" : -60
+          },
+          "total_over_by" : {
+            "type" : "number",
+            "description" : "The total amount the budget was exceeded across all periods.",
+            "example" : 0
+          },
+          "total_under_by" : {
+            "type" : "number",
+            "description" : "The total amount the budget was under by across all periods.",
+            "example" : 17.7
+          },
+          "periods" : {
+            "type" : "array",
+            "description" : "The period analyses that this budget analysis comprises.",
+            "items" : {
+              "$ref" : "#/components/schemas/Period"
+            }
+          }
+        }
+      },
+      "IdTransactionsBody" : {
+        "required" : [ "amount", "date", "payee" ],
+        "type" : "object",
+        "properties" : {
+          "payee" : {
+            "type" : "string",
+            "description" : "The payee/merchant of the transaction.",
+            "example" : "Tex Otago"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount of the transaction (signed). A positive amount is a credit, and a negative amount is a debit.",
+            "example" : -11.5
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "The date when the transaction occurred.",
+            "example" : "2018-02-27"
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction should be indicated as a transfer.",
+            "example" : false
+          },
+          "labels" : {
+            "type" : "string",
+            "description" : "A set of comma-separated labels for the transaction.",
+            "example" : "lunch,mexican"
+          },
+          "category_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of a category for the transaction.",
+            "example" : 42
+          },
+          "note" : {
+            "type" : "string",
+            "description" : "A note for the transaction.",
+            "example" : "I really enjoyed the loaded corn chips"
+          },
+          "memo" : {
+            "type" : "string",
+            "description" : "A memo for the transaction."
+          },
+          "cheque_number" : {
+            "type" : "string",
+            "description" : "A cheque number for the transaction."
+          },
+          "needs_review" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction needs to be reviewed or not.",
+            "example" : false
+          }
+        }
+      },
+      "TransactionsidSplits" : {
+        "required" : [ "amount" ],
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount for this split transaction.",
+            "example" : -30.0
+          },
+          "payee" : {
+            "type" : "string",
+            "description" : "The payee for this split transaction. If not provided, inherits from the parent transaction.",
+            "example" : "Restaurant ABC"
+          },
+          "category_id" : {
+            "type" : "integer",
+            "description" : "The category ID for this split transaction. If not provided, inherits from the parent transaction.",
+            "example" : 42
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether this split transaction should be indicated as a transfer.",
+            "example" : false
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "The date for this split transaction. If not provided, defaults to the parent transaction's date.",
+            "example" : "2018-02-27"
+          }
+        }
+      },
+      "CategoriesidBody" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "A new title for the category.",
+            "example" : "Food"
+          },
+          "colour" : {
+            "type" : "string",
+            "description" : "A new CSS-style hex colour for the category.",
+            "example" : "#e0e7ff"
+          },
+          "parent_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of a parent category for the category, making this category a child of that category.",
+            "example" : 42
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Set the category as a transfer category.",
+            "example" : false
+          },
+          "is_bill" : {
+            "type" : "boolean",
+            "description" : "Set the category as a bill category.",
+            "example" : true
+          },
+          "roll_up" : {
+            "type" : "boolean",
+            "description" : "Set the category to be rolled up into its parent category.",
+            "example" : false
+          },
+          "refund_behaviour" : {
+            "type" : "string",
+            "description" : "Set the refund behaviour of the category.",
+            "nullable" : true,
+            "example" : "credits_are_refunds",
+            "enum" : [ "debits_are_deductions", "credits_are_refunds", null ]
+          }
+        }
+      },
+      "TransactionsidBody" : {
+        "type" : "object",
+        "properties" : {
+          "memo" : {
+            "type" : "string",
+            "description" : "A new memo for the transaction.",
+            "example" : "Rent"
+          },
+          "cheque_number" : {
+            "type" : "string",
+            "description" : "A new cheque number for the transaction.",
+            "example" : "503113643691"
+          },
+          "payee" : {
+            "type" : "string",
+            "description" : "A new payee for the transaction.",
+            "example" : "Bill"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount of the transaction (signed). A positive amount is a credit, and a negative amount is a debit.",
+            "example" : -225
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "A new date for the transaction.",
+            "example" : "2018-02-27"
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction is a transfer or not.",
+            "example" : false
+          },
+          "category_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of a new category for the transaction. Sending an empty string will uncategorize the transaction.",
+            "example" : 42
+          },
+          "note" : {
+            "type" : "string",
+            "description" : "A new note for the transaction."
+          },
+          "needs_review" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction needs to be reviewed or not.",
+            "example" : false
+          },
+          "labels" : {
+            "type" : "string",
+            "description" : "A new comma-separated set of labels for the transaction.",
+            "example" : "foo,bar,baz"
+          },
+          "splits" : {
+            "type" : "array",
+            "description" : "Split this transaction into multiple transactions. The correctly calculated remainder amount parameter must be provided, which is equal to the amount - sum(split_amounts). Splitting is atomic: all splits are validated before the original transaction and any splits are saved.",
+            "example" : [ {
+              "amount" : -30.0,
+              "category_id" : 101,
+              "payee" : "Restaurant ABC",
+              "note" : "Lunch portion"
+            }, {
+              "amount" : -19.95,
+              "category_id" : 102,
+              "payee" : "Transport",
+              "note" : "Bus fare"
+            } ],
+            "items" : {
+              "$ref" : "#/components/schemas/TransactionsidSplits"
+            }
+          }
+        }
+      },
+      "IdInstitutionsBody" : {
+        "required" : [ "currency_code", "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "A title for the institution.",
+            "example" : "Bank of Foo"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "A currency code for the institution.",
+            "example" : "NZD"
+          }
+        }
+      },
+      "AttachmentsidBody" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "The new title of the attachment. If the title is blank or not provided, the server will derive a title from the file name.",
+            "example" : "Invoice for taxi"
+          }
+        }
+      },
+      "UsersidBody" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "A new name for the user.",
+            "example" : "John Appleseed"
+          },
+          "time_zone" : {
+            "type" : "string",
+            "description" : "A new time zone for the user.",
+            "example" : "Auckland"
+          },
+          "week_start_day" : {
+            "type" : "integer",
+            "description" : "The day of the week the user wishes their calendars to start on. A number between 0 and 6, where 0 is Sunday and 6 is Saturday.",
+            "example" : 1
+          },
+          "beta_user" : {
+            "type" : "boolean",
+            "description" : "Whether the user is a beta user, and wishes to try out new features.",
+            "example" : true
+          },
+          "base_currency_code" : {
+            "type" : "string",
+            "description" : "A new base currency code for the user.",
+            "example" : "nzd"
+          },
+          "always_show_base_currency" : {
+            "type" : "boolean",
+            "description" : "Whether the user wishes to have all monetary values converted to their base currency.",
+            "example" : true
+          }
+        }
+      },
+      "Period" : {
+        "type" : "object",
+        "properties" : {
+          "start_date" : {
+            "type" : "string",
+            "description" : "The start date of the period.",
+            "example" : "2016-11-01"
+          },
+          "end_date" : {
+            "type" : "string",
+            "description" : "The end date of the period.",
+            "example" : "2016-11-30"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency of the period.",
+            "example" : "nzd"
+          },
+          "actual_amount" : {
+            "type" : "number",
+            "description" : "The sum of all actuals (transactions) in the period.",
+            "example" : -42.3
+          },
+          "forecast_amount" : {
+            "type" : "number",
+            "description" : "The sum of all forecast sources (budget events) in the period, for comparison against the actual amount.",
+            "example" : -60
+          },
+          "refund_amount" : {
+            "type" : "number",
+            "description" : "This attribute tracks the amount that has been refunded or deducted to the actual amount. When a category is set to \"always expense\", any credit transactions are treated as refunds and when set to \"always income\", any debit transactions are treated as deductions.",
+            "example" : 5.6
+          },
+          "current" : {
+            "type" : "boolean",
+            "description" : "Whether this period is current, such that the current date (in the user's time zone) falls within the date range.",
+            "example" : true
+          },
+          "over_budget" : {
+            "type" : "boolean",
+            "description" : "Whether the budget has been exceeded in the period.",
+            "example" : false
+          },
+          "under_budget" : {
+            "type" : "boolean",
+            "description" : "Whether the budget has not been exceeded in the period.",
+            "example" : true
+          },
+          "over_by" : {
+            "type" : "number",
+            "description" : "How much the budget has been exceeded by in the period.",
+            "example" : 0
+          },
+          "under_by" : {
+            "type" : "number",
+            "description" : "How much there is left in the budget for the period.",
+            "example" : 17.7
+          },
+          "percentage_used" : {
+            "type" : "number",
+            "description" : "The percentage of the budget that has been used in the period.",
+            "example" : 70.5
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "error" : {
+            "type" : "string",
+            "description" : "A message describing the error that occurred.",
+            "example" : "A message describing the error that occurred."
+          }
+        }
+      },
+      "IdCategoryRulesBody" : {
+        "required" : [ "category_id", "payee_matches" ],
+        "type" : "object",
+        "properties" : {
+          "payee_matches" : {
+            "type" : "string",
+            "description" : "The keyword/s to match the transaction payees.",
+            "example" : "Countdown"
+          },
+          "apply_to_uncategorised" : {
+            "type" : "boolean",
+            "description" : "Apply the created category rule to all uncategorised transactions.",
+            "example" : true
+          },
+          "apply_to_all" : {
+            "type" : "boolean",
+            "description" : "Apply the created category rule to all transactions.",
+            "example" : false
+          }
+        }
+      },
+      "IdAccountsBody1" : {
+        "required" : [ "currency_code", "institution_id", "title", "type" ],
+        "type" : "object",
+        "properties" : {
+          "institution_id" : {
+            "type" : "integer",
+            "description" : "The ID of the institution to create this account in.",
+            "example" : 42
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "A title for the account.",
+            "example" : "Foo"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "A currency code for the account.",
+            "example" : "NZD"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of the account.",
+            "example" : "bank",
+            "enum" : [ "bank", "credits", "cash", "loans", "mortgage", "stocks", "vehicle", "property", "insurance", "other_asset", "other_liability" ]
+          }
+        }
+      },
+      "Scenario" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the scenario.",
+            "example" : 42
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "The title of the scenario.",
+            "example" : "Wedding"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "A short description of what the scenario is modelling."
+          },
+          "interest_rate" : {
+            "type" : "number",
+            "description" : "The amount of interest to apply to the balance. Will apply periodically depending on what `interest_rate_repeat_id` is set to.",
+            "example" : 2.4
+          },
+          "interest_rate_repeat_id" : {
+            "type" : "integer",
+            "description" : "A number representing how often the interest should be applied. 0 is used for no interest, 2 is weekly, 3 is fortnightly, 4 is monthly, 5 is yearly and 7 for quarterly.",
+            "example" : 4
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of the scenario.",
+            "example" : "no-interest",
+            "enum" : [ "no-interest", "savings", "debt" ]
+          },
+          "minimum-value" : {
+            "type" : "number",
+            "example" : 4000
+          },
+          "maximum-value" : {
+            "type" : "number",
+            "example" : 42
+          },
+          "achieve_date" : {
+            "type" : "string",
+            "description" : "For goals, the date that they should be achieved by."
+          },
+          "starting_balance" : {
+            "type" : "number",
+            "description" : "The starting balance of the scenario.",
+            "example" : 2450
+          },
+          "starting_balance_date" : {
+            "type" : "string",
+            "description" : "The date of the starting balance.",
+            "example" : "2018-02-27"
+          },
+          "closing_balance" : {
+            "type" : "number",
+            "description" : "The closing balance of the scenario.",
+            "example" : 5431.2
+          },
+          "closing_balance_date" : {
+            "type" : "string",
+            "description" : "The date of the closing balance.",
+            "example" : "2018-02-27"
+          },
+          "current_balance" : {
+            "type" : "number",
+            "description" : "The current balance of the scenario.",
+            "example" : 5431.2
+          },
+          "current_balance_date" : {
+            "type" : "string",
+            "description" : "The date of the current balance.",
+            "example" : "2018-02-27"
+          },
+          "current_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current balance of the scenario in the user's base currency.",
+            "example" : 8146.8
+          },
+          "current_balance_exchange_rate" : {
+            "type" : "number",
+            "description" : "The exchange rate between the scenario's currency and the user's base currency, when different. If the currencies are the same, null is returned.",
+            "example" : 1.5
+          },
+          "safe_balance" : {
+            "type" : "number",
+            "description" : "The current safe balance in the user's base currency, if safe balance is activated on the account associated with the scenario. If safe balance is not activated, then null is returned.",
+            "example" : 5431.2
+          },
+          "safe_balance_in_base_currency" : {
+            "type" : "number",
+            "description" : "The current safe balance in the user's base currency, if safe balance is activated on the account associated with the scenario. If safe balance is not available, then null is returned.",
+            "example" : 8146.8
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the scenario was created.",
+            "example" : "2015-04-21T22:42:22Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the scenario was last updated.",
+            "example" : "2015-04-21T22:42:22Z"
+          }
+        }
+      },
+      "BudgetAnalysisPackage" : {
+        "type" : "object",
+        "properties" : {
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether the expense budget analysis looks like a transfer to the income budget analysis, based on a number of heuristics.",
+            "example" : false
+          },
+          "expense" : {
+            "$ref" : "#/components/schemas/BudgetAnalysis"
+          },
+          "income" : {
+            "$ref" : "#/components/schemas/BudgetAnalysis"
+          }
+        }
+      },
+      "AccountsidBody" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "description" : "A new title for the account.",
+            "example" : "Savings"
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "A new currency code for the account.",
+            "example" : "NZD"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "The type of the account.",
+            "example" : "bank",
+            "enum" : [ "bank", "credits", "cash", "loans", "mortgage", "stocks", "vehicle", "property", "insurance", "other_asset", "other_liability" ]
+          },
+          "is_net_worth" : {
+            "type" : "boolean",
+            "description" : "Whether the account is a net worth account.",
+            "example" : false
+          }
+        }
+      },
+      "TimeZone" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "The name of the time zone.",
+            "example" : "Auckland"
+          },
+          "utc_offset" : {
+            "type" : "integer",
+            "description" : "The time zone's UTC offset in seconds.",
+            "example" : 46800
+          },
+          "formatted_name" : {
+            "type" : "string",
+            "description" : "The formatted name of the time zone.",
+            "example" : "(GMT+13:00) Auckland"
+          },
+          "formatted_offset" : {
+            "type" : "string",
+            "description" : "The formatted offset of the time zone.",
+            "example" : "+13:00"
+          },
+          "abbreviation" : {
+            "type" : "string",
+            "description" : "The abbreviation of the time zone.",
+            "example" : "NZDT"
+          },
+          "identifier" : {
+            "type" : "string",
+            "description" : "The tz database name of the time zone.",
+            "example" : "Pacific/Auckland"
+          }
+        }
+      },
+      "Transaction" : {
+        "type" : "object",
+        "properties" : {
+          "cheque_number" : {
+            "type" : "string",
+            "example" : "503113643691"
+          },
+          "type" : {
+            "type" : "string",
+            "description" : "Whether the transaction is a debit or a credit",
+            "example" : "credit",
+            "enum" : [ "debit", "credit" ]
+          },
+          "memo" : {
+            "type" : "string",
+            "example" : "An example memo"
+          },
+          "payee" : {
+            "type" : "string",
+            "description" : "The payee/merchant of the transaction.",
+            "example" : "St Martins New World"
+          },
+          "amount" : {
+            "type" : "number",
+            "example" : 34.6
+          },
+          "amount_in_base_currency" : {
+            "type" : "number",
+            "description" : "The amount of the transaction in the user's base currency.",
+            "example" : 51.9
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "The date the transaction took place.",
+            "example" : "2018-02-27"
+          },
+          "is_transfer" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction is a transfer.",
+            "example" : false
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "note" : {
+            "type" : "string",
+            "example" : "I spent way too much on cheese here"
+          },
+          "labels" : {
+            "type" : "array",
+            "example" : [ "foo", "bar", "baz" ],
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the transaction.",
+            "example" : 42
+          },
+          "original_payee" : {
+            "type" : "string",
+            "description" : "The payee the transaction was created with.",
+            "example" : "CARD4083ST MARTINS NEW WORLD CHRISTCHURCH"
+          },
+          "upload_source" : {
+            "type" : "string",
+            "description" : "Where the transaction came from.",
+            "example" : "file"
+          },
+          "closing_balance" : {
+            "type" : "number",
+            "description" : "The closing balance of the account at the transaction.",
+            "example" : 4312.32
+          },
+          "transaction_account" : {
+            "$ref" : "#/components/schemas/TransactionAccount"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "The status of the transaction. Pending transactions are temporary and may be superseded later by their posted counterparts, which are permanent.",
+            "enum" : [ "pending", "posted" ]
+          },
+          "needs_review" : {
+            "type" : "boolean",
+            "description" : "Whether the transaction needs to be reviewed.",
+            "example" : true
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "When the transaction was created.",
+            "example" : "2018-02-27T22:42:22Z"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "description" : "When the transaction was last updated.",
+            "example" : "2018-02-27T22:42:22Z"
+          }
+        }
+      },
+      "TransactionAccountsidBody" : {
+        "type" : "object",
+        "properties" : {
+          "institution_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of a new institution for the transaction account.",
+            "example" : 42
+          },
+          "starting_balance" : {
+            "type" : "number",
+            "description" : "The starting balance amount of the transaction account.",
+            "example" : 3547.45
+          },
+          "starting_balance_date" : {
+            "type" : "string",
+            "description" : "The starting balance date of the transaction account.",
+            "example" : "2015-03-15"
+          }
+        }
+      },
+      "Event" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "description" : "The unique identifier of the event.",
+            "example" : "42-1601942400"
+          },
+          "category" : {
+            "$ref" : "#/components/schemas/Category"
+          },
+          "scenario" : {
+            "$ref" : "#/components/schemas/Scenario"
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount of the event.",
+            "example" : 250.5
+          },
+          "amount_in_base_currency" : {
+            "type" : "number",
+            "description" : "The amount of the event in the user's base currency.",
+            "example" : 375.75
+          },
+          "currency_code" : {
+            "type" : "string",
+            "description" : "The currency code of the event.",
+            "example" : "nzd"
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "The date of the event.",
+            "example" : "2020-10-27"
+          },
+          "colour" : {
+            "type" : "string",
+            "description" : "The CSS hex-style colour of the event.",
+            "example" : "#F63737"
+          },
+          "note" : {
+            "type" : "string",
+            "description" : "The note of the event.",
+            "example" : "Buy more beer every Friday from the local brewery."
+          },
+          "repeat_type" : {
+            "type" : "string",
+            "description" : "The repeat type of the event.",
+            "example" : "weekly",
+            "enum" : [ "once", "daily", "weekly", "fortnightly", "monthly", "yearly", "each weekday" ]
+          },
+          "repeat_interval" : {
+            "type" : "integer",
+            "description" : "The repeat interval of how often the event takes place.",
+            "example" : 1
+          },
+          "series_id" : {
+            "type" : "integer",
+            "description" : "The unique identifier of the series that the event belongs to.",
+            "example" : 42
+          },
+          "series_start_id" : {
+            "type" : "string",
+            "description" : "The unique identifier of the series followed by the series's start date.",
+            "example" : "42-1593993600"
+          },
+          "infinite_series" : {
+            "type" : "boolean",
+            "description" : "Whether the event repeats and does not have an end date.",
+            "example" : true
+          }
+        }
+      },
+      "EventsidBody" : {
+        "required" : [ "behaviour" ],
+        "type" : "object",
+        "properties" : {
+          "behaviour" : {
+            "type" : "string",
+            "description" : "Whether the update applies only to this event, to all events within the series from this event or to all events within the series.",
+            "example" : "all",
+            "enum" : [ "one", "forward", "all" ]
+          },
+          "amount" : {
+            "type" : "number",
+            "description" : "The amount of the event. A positive amount is a credit, and a negative amount is a debit.",
+            "example" : 11.5
+          },
+          "repeat_type" : {
+            "type" : "string",
+            "description" : "The repeat type of the event.",
+            "example" : "weekly",
+            "enum" : [ "once", "daily", "weekly", "fortnightly", "monthly", "yearly", "each weekday" ]
+          },
+          "repeat_interval" : {
+            "type" : "integer",
+            "description" : "The repeat interval of the event.",
+            "example" : 1
+          },
+          "note" : {
+            "type" : "string",
+            "description" : "A note for the event.",
+            "example" : "Need more beer."
+          }
+        }
+      },
+      "AttachmentVariants" : {
+        "type" : "object",
+        "properties" : {
+          "large_url" : {
+            "type" : "string",
+            "description" : "The url of the large version of the attachment.",
+            "example" : "https://image.com/image.png"
+          },
+          "thumb_url" : {
+            "type" : "string",
+            "description" : "The url of the thumb version of the attachment.",
+            "example" : "https://image.com/image.png"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "400" : {
+        "description" : "Bad Request",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "403" : {
+        "description" : "Not Allowed",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404" : {
+        "description" : "Not Found",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "409" : {
+        "description" : "Conflict",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "422" : {
+        "description" : "Validation Error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "userId" : {
+        "name" : "id",
+        "in" : "path",
+        "description" : "The unique identifier of the user.",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "integer"
+        },
+        "example" : 42
+      },
+      "scenarioId" : {
+        "name" : "id",
+        "in" : "path",
+        "description" : "The unique identifier of the scenario.",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "integer"
+        },
+        "example" : 42
+      },
+      "eventId" : {
+        "name" : "id",
+        "in" : "path",
+        "description" : "The unique identifier of the event.",
+        "required" : true,
+        "style" : "simple",
+        "explode" : false,
+        "schema" : {
+          "type" : "string"
+        },
+        "example" : "42-1601942400"
+      }
+    },
+    "securitySchemes" : {
+      "developerKey" : {
+        "type" : "apiKey",
+        "description" : "If you want to build a tool just for yourself, be it a desktop widget to display your balances or a tool to import transactions from a bank without a bank feed, you can use our developer keys feature. You can issue yourself a key which will give you persistent API access to just your account. You should rotate your keys regularly.",
+        "name" : "X-Developer-Key",
+        "in" : "header",
+        "x-ballerina-name" : "xDeveloperKey"
+      },
+      "oauth2" : {
+        "type" : "oauth2",
+        "description" : "If you want to a create an app for PocketSmith that other PocketSmith users can use, you'll be using OAuth 2. To register an app with PocketSmith, please email us on api@pocketsmith.com. Let us know a bit about yourself and what you plan on building. When approved, you will be provided with your client_id and client_secret to start using OAuth. Then, check out our guide for integrating OAuth to get started.",
+        "flows" : {
+          "authorizationCode" : {
+            "authorizationUrl" : "https://my.pocketsmith.com/oauth/authorize",
+            "tokenUrl" : "https://api.pocketsmith.com/v2/oauth/access_token",
+            "scopes" : {
+              "user.read" : "Access the user's details and preferences",
+              "user.write" : "Access to change the user's details and preferences",
+              "accounts.read" : "Access to list and view transaction accounts",
+              "accounts.write" : "Access to update and delete transaction accounts",
+              "transactions.read" : "Access to list and view accounts and transactions",
+              "transactions.write" : "Access to create, update and delete transactions",
+              "categories.read" : "Access to view categories",
+              "categories.write" : "Ability to edit and delete categories",
+              "attachments.read" : "Access to view attachments",
+              "attachments.write" : "Ability to create, update and delete attachments",
+              "events.read" : "Access to view events",
+              "events.write" : "Ability to create, update and delete events"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-samples-languages" : [ "curl", "node", "javascript", "php", "python" ]
+}

@@ -2,13 +2,15 @@
 
 The `ballerinax/pocketsmith` connector provides practical examples illustrating usage in various scenarios.
 
-[//]: # (TODO: Add examples)
-1. 
-2. 
+| Example | Description |
+|---|---|
+| [monthly_budget_review](./monthly_budget_review/monthly_budget_review.md) | Lists accounts and compares forecast and actual spending per category. |
+| [uncategorised_transaction_cleanup](./uncategorised_transaction_cleanup/uncategorised_transaction_cleanup.md) | Finds uncategorised transactions and optionally assigns a category. |
 
 ## Prerequisites
 
-[//]: # (TODO: Add prerequisites)
+1. A PocketSmith developer key for the `ballerinax/pocketsmith` connector. Both examples authenticate with it.
+2. A `Config.toml` in each example directory, as described in that example's document.
 
 ## Running an example
 
